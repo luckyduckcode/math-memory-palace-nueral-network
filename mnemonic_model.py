@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
+import heapq
 
 # --- CONFIGURATION ---
 SEMANTIC_DIM = 768  # Dimension of the input Fact Vector (from LLM embedding)
@@ -36,6 +37,35 @@ class ChessCubeLattice:
                     }
         return coordinates
 
+class Tier2Lattice(ChessCubeLattice):
+    """
+    A secondary, 'Shadow' Memory Palace for storing generated knowledge (explanations).
+    It has 'less permissions' (read-only for foundational logic) and is lower in hierarchy.
+    It maps 1:1 to the primary lattice but stores 'derivative' content.
+    """
+    def __init__(self, size=CUBE_SIZE):
+        super().__init__(size)
+        self.storage = {} # Key: coordinate_key, Value: list of explanations
+
+    def store_explanation(self, primary_coords, explanation, path_sequence):
+        """
+        Stores the explanation in the Tier 2 lattice at the corresponding location.
+        """
+        # Convert tuple coords to key
+        x, y, z = primary_coords
+        key = f"{x}_{y}_{z}"
+        
+        if key not in self.storage:
+            self.storage[key] = []
+            
+        entry = {
+            "explanation": explanation,
+            "path_origin": path_sequence,
+            "timestamp": "now" # In real system, use actual time
+        }
+        self.storage[key].append(entry)
+        return key
+
 class DIM_Net(nn.Module):
     """
     Dimensionality Isomorphism Network (DIM-Net)
@@ -67,6 +97,116 @@ class DIM_Net(nn.Module):
         x = self.encoder(x)
         x = self.mapping(x)
         return self.output_layer(x)
+
+class MPNN(nn.Module):
+    """
+    Memory Palace Neural Network (MPNN)
+    
+    Acts as a Differentiable Neural Computer (DNC) or MANN.
+    Grounds problem-solving in the spatially-organized Chess Cube.
+    """
+    def __init__(self, dim_net=None, lattice=None):
+        super(MPNN, self).__init__()
+        self.dim_net = dim_net if dim_net else DIM_Net()
+        self.dim_net = dim_net if dim_net else DIM_Net()
+        self.lattice = lattice if lattice else ChessCubeLattice()
+        self.tier2 = Tier2Lattice() # Initialize Tier 2
+        
+        # Knowledge Graph (Adjacency List)
+        # For PoC, we define a simple graph connecting major concepts
+        self.knowledge_graph = {
+            # Example: Calculus -> Differentiation -> Power Rule
+            "calculus": ["differentiation", "integration", "limits"],
+            "differentiation": ["power_rule", "chain_rule", "product_rule"],
+            "power_rule": [],
+            "chain_rule": [],
+            "product_rule": [],
+            "integration": ["integration_by_parts", "substitution"],
+            "algebra": ["linear_equations", "quadratic_equations"],
+            "linear_equations": ["matrix_operations"],
+            "matrix_operations": ["inverse", "determinant"]
+        }
+        
+        # Map concepts to approximate coordinates (Mocking the trained state)
+        self.concept_locations = {
+            "calculus": (2, 5, 3),
+            "differentiation": (2, 5, 4),
+            "power_rule": (2, 6, 4),
+            "integration": (2, 4, 3),
+            "algebra": (1, 2, 2)
+        }
+
+    def spatial_proximity_search(self, problem_vector):
+        """
+        Stage B.1: Identifies the target Goal Loci based on conceptual distance.
+        Returns:
+            goal_concept (str): The identified concept key.
+            coords (tuple): The (x, y, z) coordinates.
+        """
+        # 1. Use DIM-Net to map vector to 3D space
+        # Ensure input is a tensor
+        if not isinstance(problem_vector, torch.Tensor):
+            problem_vector = torch.tensor(problem_vector, dtype=torch.float32)
+        
+        # If vector is 1D, add batch dim
+        if len(problem_vector.shape) == 1:
+            problem_vector = problem_vector.unsqueeze(0)
+            
+        predicted_coords = self.dim_net(problem_vector).detach().numpy()[0]
+        
+        # 2. Find nearest concept in our "Knowledge Graph" (concept_locations)
+        # In a real system, this would be a k-NN search on the Loci vectors
+        nearest_concept = None
+        min_dist = float('inf')
+        
+        for concept, loc in self.concept_locations.items():
+            dist = np.linalg.norm(predicted_coords - np.array(loc))
+            if dist < min_dist:
+                min_dist = dist
+                nearest_concept = concept
+                
+        return nearest_concept, self.concept_locations.get(nearest_concept, (0,0,0))
+
+    def derive_path(self, start_concept, goal_concept):
+        """
+        Stage B.2: Computes optimal logical Path Sequence.
+        Uses Dijkstra's algorithm on the Knowledge Graph.
+        """
+        # Simple BFS/Dijkstra
+        queue = [(0, start_concept, [])] # (cost, current, path)
+        visited = set()
+        
+        while queue:
+            cost, current, path = heapq.heappop(queue)
+            
+            if current == goal_concept:
+                return path + [current]
+            
+            if current in visited:
+                continue
+            visited.add(current)
+            
+            # Get neighbors
+            neighbors = self.knowledge_graph.get(current, [])
+            
+            # Also check reverse links (undirected for traversal?) 
+            # Or assume strict hierarchy. Let's assume strict for now.
+            
+            for neighbor in neighbors:
+                heapq.heappush(queue, (cost + 1, neighbor, path + [current]))
+                
+        return [] # No path found
+
+    def consolidate_memory(self, goal_concept, explanation, path_sequence):
+        """
+        Stores the result in the Tier 2 Memory Palace.
+        """
+        # Get coords of the goal concept
+        coords = self.concept_locations.get(goal_concept, (1,1,1))
+        
+        # Store in Tier 2
+        storage_key = self.tier2.store_explanation(coords, explanation, path_sequence)
+        return storage_key, coords
 
 class GenerativeMnemonicModel(nn.Module):
     """
@@ -237,39 +377,16 @@ def generate_simulated_trhd_data(num_clusters):
 if __name__ == "__main__":
     # 1. Instantiate the models
     dim_net = DIM_Net()
-    gen_model = GenerativeMnemonicModel()
-    trhd_mapper = TRHD_MnemonicMapper()
+    mpnn = MPNN(dim_net=dim_net)
     
-    print("Models instantiated successfully.")
-    print(f"DIM-Net Architecture:\n{dim_net}")
-    print(f"Generative Mnemonic Model Architecture:\n{gen_model}")
-    print(f"TRHD_MnemonicMapper Architecture:\n{trhd_mapper}")
+    print("MPNN instantiated successfully.")
     
-    # 2. Mock Data
-    dummy_input = torch.randn(1, SEMANTIC_DIM) # Single fact vector
-    dummy_target_coord = torch.tensor([[1.0, 1.0, 1.0]]) # Target (1, 1, 1)
-    dummy_fact_cluster = torch.randn(2, NUM_FACTS_PER_CLUSTER, TOTAL_INPUT_DIM) # Batch of 2 clusters, each with 10 facts
+    # 2. Test Spatial Search
+    # Dummy 768-dim vector
+    dummy_vec = torch.randn(1, SEMANTIC_DIM)
+    concept, loc = mpnn.spatial_proximity_search(dummy_vec)
+    print(f"Nearest Concept: {concept} at {loc}")
     
-    # 3. Forward Pass (DIM-Net)
-    predicted_coord = dim_net(dummy_input)
-    loss = geometric_loss(predicted_coord, dummy_target_coord)
-    
-    print(f"\nTest Forward Pass (DIM-Net):")
-    print(f"Input Shape: {dummy_input.shape}")
-    print(f"Predicted Coordinate: {predicted_coord.detach().numpy()}")
-    print(f"Geometric Loss: {loss.item():.4f}")
-    
-    # 4. Forward Pass (TRHD_MnemonicMapper)
-    cluster_coord = trhd_mapper(dummy_fact_cluster)
-    
-    print(f"\nTest Forward Pass (TRHD_MnemonicMapper):")
-    print(f"Input Shape: {dummy_fact_cluster.shape}")
-    print(f"Predicted Cluster Coordinate: {cluster_coord.detach().numpy()}")
-    
-    # 5. Test Simulated Data Generation
-    print(f"\nTesting Simulated Data Generation:")
-    input_clusters, target_coords, color_parity_labels, avg_truth_scores = generate_simulated_trhd_data(4)
-    print(f"Generated {len(input_clusters)} clusters")
-    print(f"Input shape: {input_clusters.shape}")
-    print(f"Average truth scores: {avg_truth_scores.flatten()}")
-    print(f"Color parity labels: {color_parity_labels}")
+    # 3. Test Path Derivation
+    path = mpnn.derive_path("calculus", "power_rule")
+    print(f"Derived Path: {path}")

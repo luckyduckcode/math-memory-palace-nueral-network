@@ -1,63 +1,71 @@
-# Super Math AI: Spatial Reasoning Memory Palace with APL Integration
+# Neuro-Symbolic Memory Palace: Mathematical Reasoning AI
 
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-red.svg)](https://pytorch.org/)
-[![APL](https://img.shields.io/badge/APL-Array--Oriented-orange.svg)](https://aplwiki.com/)
+[![SymPy](https://img.shields.io/badge/SymPy-Symbolic-green.svg)](https://www.sympy.org/)
 
-An advanced AI system that implements **Dimensionality Isomorphism Networks (DIM-Net)** to create a mathematical reasoning engine. The system maps mathematical concepts, formulas, and APL code to 3D geometric coordinates in a chess cube lattice, enabling spatial reasoning and retrieval for mathematical problem-solving. Designed as a RAG (Retrieval-Augmented Generation) replacement with executable APL integration.
+A **Neuro-Symbolic AI system** that replaces traditional Vector-Search RAG with a spatially-organized **Memory Palace Neural Network (MPNN)**. The system grounds mathematical problem-solving in a structured knowledge graph (Chess Cube lattice), ensuring symbolically correct, contextually grounded, and linguistically explainable derivations.
 
 ## 🌟 Key Features
 
-- **Math-Focused DIM-Net**: Neural networks mapping mathematical semantics to 3D coordinates
-- **APL Integration**: Executable APL code snippets stored at geometric locations
+### Neuro-Symbolic Architecture
+- **4-Stage Pipeline**: Intent Parsing → Memory Palace Search → Symbolic Execution → Explanation Generation
+- **Memory Palace Neural Network (MPNN)**: Spatial reasoning over a 8×8×8 Chess Cube knowledge graph
+- **Symbolic Solver (SymPy)**: Guarantees mathematical rigor with verified symbolic execution
+- **Tier 2 Memory Palace**: Hierarchical storage for generated explanations and worked examples
+- **Path Derivation**: Logical sequences through concept space (e.g., Calculus → Differentiation → Power Rule)
+
+### Traditional Features (Legacy)
+- **DIM-Net**: Neural networks mapping mathematical semantics to 3D coordinates
 - **Spatial Reasoning**: Chess cube lattice for mathematical relationship modeling
-- **Retrieval System**: Query mathematical knowledge by semantic similarity and coordinates
-- **Attention-Based Mapping**: TRHD_MnemonicMapper for mathematical concept clustering
-- **Geometric Constraints**: Chess cube with parity properties for mathematical structure
 - **Custom Loss Functions**: Mathematical accuracy, logical consistency, and geometric optimization
 - **PAO Mnemonic Generation**: Vivid mnemonics for mathematical formulas and theorems
-- **RAG Replacement**: Retrieve and generate mathematical solutions from stored knowledge
 
 ## 🏗️ Architecture Overview
 
-### Core Components
+### Neuro-Symbolic RAG Pipeline
 
 ```
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   Math Data     │    │   Neural         │    │   Geometric     │
-│   Generation    │───▶│   Networks       │───▶│   Mapping       │
-│   (Formulas/APL)│    │   (DIM-Net)      │    │   (Chess Cube)  │
-└─────────────────┘    └──────────────────┘    └─────────────────┘
-         │                       │                       │
-         ▼                       ▼                       ▼
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   Math Dataset  │    │   Attention      │    │   3D            │
-│   (5120 facts)  │    │   Mechanisms     │    │   Coordinates   │
-└─────────────────┘    └──────────────────┘    └─────────────────┘
-         │                       │                       │
-         ▼                       ▼                       ▼
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   Retrieval     │    │   APL            │    │   Spatial       │
-│   Engine        │    │   Execution      │    │   Reasoning     │
-└─────────────────┘    └──────────────────┘    └─────────────────┘
+┌──────────────┐
+│ User Query   │
+│ "Find d/dx   │
+│  of x²"      │
+└──────┬───────┘
+       │
+       ▼
+┌─────────────────────────────────────────────────────────┐
+│ Stage A: sLLM Interpreter (Intent Parsing)              │
+│ • Extracts: intent=differentiation, expr=x²             │
+│ • Generates: Problem Vector (P-Vec)                     │
+└──────────────────────┬──────────────────────────────────┘
+                       │
+                       ▼
+┌─────────────────────────────────────────────────────────┐
+│ Stage B: Memory Palace Neural Network (MPNN)            │
+│ • Spatial Proximity Search → Goal Loci: "power_rule"   │
+│ • Path Derivation: [calculus, differentiation]         │
+└──────────────────────┬──────────────────────────────────┘
+                       │
+                       ▼
+┌─────────────────────────────────────────────────────────┐
+│ Stage C: Symbolic Solver (SymPy)                        │
+│ • Executes path: diff(x², x) → 2x                      │
+│ • Verifies each step symbolically                       │
+└──────────────────────┬──────────────────────────────────┘
+                       │
+                       ▼
+┌─────────────────────────────────────────────────────────┐
+│ Stage D: sLLM Explainer (Natural Language)              │
+│ • Generates pedagogical explanation                     │
+└──────────────────────┬──────────────────────────────────┘
+                       │
+                       ▼
+┌─────────────────────────────────────────────────────────┐
+│ Tier 2 Memory Palace (Consolidation)                    │
+│ • Stores explanation at coords (2,5,4)                  │
+│ • Links to path: [calculus, differentiation]           │
+└─────────────────────────────────────────────────────────┘
 ```
-
-### Neural Network Models
-
-1. **DIM-Net**: Maps mathematical semantic vectors to 3D coordinates preserving mathematical relationships
-2. **MathMnemonicModel**: Creates mnemonic potential vectors for mathematical concepts
-3. **TRHD_MnemonicMapper**: Attention-based mapper for mathematical clusters with logical consistency
-4. **RetrievalEncoder**: Semantic search for mathematical queries
-
-### Data Flow
-
-1. **Input**: Mathematical theorems, formulas, proofs, and APL code
-2. **Classification**: Mathematical domains (algebra, calculus, geometry, etc.)
-3. **PAO Generation**: Creates vivid mnemonics for mathematical concepts
-4. **Geometric Mapping**: Assigns 3D coordinates in 8×8×8 chess cube lattice
-5. **Neural Training**: DIM-Net learns math semantic-to-geometric transformations
-6. **Attention Pooling**: TRHD_MnemonicMapper processes mathematical concept clusters
-7. **Retrieval Training**: Learn to retrieve relevant math knowledge for queries
 
 ## 📦 Installation & Setup
 
@@ -65,9 +73,8 @@ An advanced AI system that implements **Dimensionality Isomorphism Networks (DIM
 
 - Python 3.8+
 - PyTorch 2.0+
-- APL Interpreter (Dyalog APL recommended)
-- C++ compiler (for geometric computations)
-- 16GB+ RAM (24GB recommended for math datasets)
+- SymPy (for symbolic math)
+- Ollama (optional, for LLM features)
 
 ### Quick Setup
 
@@ -82,276 +89,193 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 # Install dependencies
 pip install -r requirements.txt
 
-# Install APL interpreter
-# For Dyalog APL: https://www.dyalog.com/
+# Optional: Install Ollama for LLM features
+# Visit https://ollama.ai and run: ollama pull tinyllama
 ```
 
 ## 🚀 Usage
 
-### Math Data Generation
+### Quick Start (No LLM Required)
 
 ```bash
-python math_data_generator.py
+python neuro_symbolic_rag.py
 ```
 
-Generates mathematical content including:
-- Theorems and proofs
-- Formula derivations
-- APL code snippets
-- Mathematical relationships
+This will run demo queries:
+- Find the derivative of x²
+- Find the derivative of x³ + 2x
+- Integrate 2x
 
-### Neural Network Training
-
-```bash
-python math_memory_palace.py
-```
-
-This will:
-- Train DIM-Net on mathematical semantics
-- Learn geometric mappings for math concepts
-- Train retrieval encoders for math queries
-- Validate mathematical accuracy
-
-### APL Integration Testing
-
-```bash
-python apl_integration.py
-```
-
-Tests APL code execution at geometric locations.
-
-### Retrieval Demo
-
-```bash
-python math_retrieval_demo.py
-```
-
-Demonstrates querying mathematical knowledge:
-```python
-query = "solve ∫x²dx"
-results = retrieve_math_knowledge(query)
-# Returns relevant theorems, formulas, and APL solutions
-```
-
-## 📊 Data Formats
-
-### Mathematical Training Data Structure
-
-The generated `math_training_data.csv` contains:
-
-| Column | Description | Example |
-|--------|-------------|---------|
-| `math_concept` | Mathematical content | "∫x²dx = x³/3 + C" |
-| `domain` | Math category | "calculus" |
-| `apl_code` | APL implementation | "+/⍵*3÷3" |
-| `pao_mnemonic` | PAO sentence | "Pythagoras juggles integral signs" |
-| `x_coord` | Chess cube X (1-8) | 2 |
-| `y_coord` | Chess cube Y (1-8) | 5 |
-| `z_coord` | Chess cube Z (1-8) | 3 |
-| `dependencies` | Related concepts | "power_rule,constant_rule" |
-
-### Math Dataset Categories
-
-- **Algebra**: Equations, matrices, abstract algebra
-- **Calculus**: Derivatives, integrals, series
-- **Geometry**: Theorems, proofs, coordinate systems
-- **Number Theory**: Primes, modular arithmetic
-- **Statistics**: Distributions, inference
-- **APL Programming**: Array operations, tacit programming
-- **Logic**: Proofs, set theory
-- **Applied Math**: Optimization, numerical methods
-
-### Neural Network Inputs/Outputs
-
-- **DIM-Net**: Input: 768D math semantic vector → Output: 3D coordinates
-- **MathMnemonicModel**: Input: 768D concept vector → Output: 256D mnemonic vector
-- **TRHD_MnemonicMapper**: Input: (batch, 10, 71) math clusters → Output: 3D coordinates
-- **RetrievalEncoder**: Input: query string → Output: semantic embedding for similarity search
-
-## 🧠 Neural Architecture Details
-
-### DIM-Net (Math-Focused)
+### Python API
 
 ```python
-class DIM_Net(nn.Module):
-    def __init__(self, input_dim=768, output_dim=3):
-        super().__init__()
-        self.math_encoder = nn.Linear(input_dim, 256)
-        self.geometric_mapping = nn.Sequential(
-            nn.Linear(256, 512),
-            nn.LeakyReLU(0.01),
-            nn.Linear(512, 512),
-            nn.LeakyReLU(0.01),
-            nn.Linear(512, 256),
-            nn.LeakyReLU(0.01),
-        )
-        self.coordinate_output = nn.Linear(256, output_dim)
+from neuro_symbolic_rag import NeuroSymbolicRAG
+
+# Initialize (works without Ollama)
+rag = NeuroSymbolicRAG(use_ollama=False)
+
+# Solve a problem
+result = rag.solve("Find the derivative of x^3")
+
+print(f"Result: {result['result']}")  # 3*x**2
+print(f"Explanation: {result['explanation']}")
+print(f"Tier 2 Location: {result['tier2_location']}")  # 2_5_4
 ```
 
-**Purpose**: Maps mathematical concepts to geometric coordinates while preserving mathematical relationships and dependencies.
+### Supported Operations
 
-### TRHD_MnemonicMapper (Math Attention)
+- **Differentiation**: `"Find the derivative of x^2 + 3*x"`
+- **Integration**: `"Integrate 2*x + 1"`
+- **More coming soon**: Equation solving, simplification, etc.
 
+## 🧠 Core Components
+
+### 1. Memory Palace Neural Network (MPNN)
+**File**: `mnemonic_model.py`
+
+The MPNN maintains a knowledge graph of mathematical concepts:
 ```python
-class TRHD_MnemonicMapper(nn.Module):
-    def __init__(self, input_dim=71, output_dim=3):
-        super().__init__()
-        self.math_query_net = nn.Linear(input_dim, input_dim)
-        self.math_net = nn.Sequential(
-            nn.Linear(input_dim, 128),
-            nn.LeakyReLU(0.01),
-            nn.Linear(128, 64),
-            nn.LeakyReLU(0.01),
-            nn.Linear(64, output_dim),
-            nn.Tanh()
-        )
-```
-
-**Features**:
-- Attention pooling across mathematical concept clusters
-- Logical consistency weighting
-- Mathematical dependency preservation
-
-### Custom Loss Functions
-
-1. **Mathematical Accuracy Loss**: Ensures geometric mappings reflect mathematical truth
-2. **Logical Consistency Loss**: Preserves mathematical relationships in coordinate space
-3. **Geometric Optimization Loss**: MSE with mathematical constraint penalties
-
-## 🔧 Configuration
-
-### Key Parameters
-
-```python
-# Mathematical Dimensions
-MATH_SEMANTIC_DIM = 768      # Input mathematical concept vector size
-MNEMONIC_DIM = 256           # Mnemonic potential vector size
-OUTPUT_DIM = 3               # 3D coordinates (x, y, z)
-TOTAL_INPUT_DIM = 71         # TRHD input dimension
-
-# Geometric Constants
-CUBE_SIZE = 8                # 8x8x8 = 512 locations
-NUM_CONCEPTS_PER_CLUSTER = 10 # Mathematical concepts per cluster
-TOTAL_CLUSTERS = 512         # Full chess cube utilization
-TOTAL_MATH_FACTS = 5120      # 512 × 10 facts
-
-# Training Parameters
-LEARNING_RATE = 0.001
-BATCH_SIZE = 32
-NUM_EPOCHS = 200             # Extended for mathematical complexity
-```
-
-### Mathematical Domain Mapping
-
-```python
-MATH_DOMAINS = {
-    'algebra': 'Abstract algebra, equations, matrices',
-    'calculus': 'Derivatives, integrals, limits',
-    'geometry': 'Theorems, proofs, coordinate geometry',
-    'number_theory': 'Primes, modular arithmetic',
-    'statistics': 'Probability, inference, distributions',
-    'apl_programming': 'Array operations, tacit programming',
-    'logic': 'Proof theory, set theory',
-    'applied_math': 'Optimization, numerical methods'
+knowledge_graph = {
+    "calculus": ["differentiation", "integration", "limits"],
+    "differentiation": ["power_rule", "chain_rule", "product_rule"],
+    "algebra": ["linear_equations", "quadratic_equations"],
+    ...
 }
 ```
 
-## 🎯 Example Output
+Each concept is mapped to 3D coordinates in the Chess Cube:
+- `calculus` → (2, 5, 3)
+- `differentiation` → (2, 5, 4)
+- `power_rule` → (2, 6, 4)
+
+### 2. Symbolic Solver
+**File**: `symbolic_solver.py`
+
+Executes mathematical operations using SymPy:
+```python
+solver = SymbolicSolver()
+result, history = solver.execute_path("x**2", ["calculus", "differentiation"])
+# Result: "2*x"
+# History: ["Initial State: x**2", "Applied differentiation: 2*x"]
+```
+
+### 3. Tier 2 Memory Palace
+**File**: `mnemonic_model.py` (Tier2Lattice class)
+
+A "shadow" memory palace that stores generated knowledge:
+- **Tier 1**: Foundational concepts and axioms (read-only)
+- **Tier 2**: Generated explanations and worked examples (writable)
+
+Each Tier 2 entry includes:
+- The explanation text
+- The path sequence that generated it
+- Timestamp metadata
+
+### 4. sLLM Wrapper (Optional)
+**File**: `sllm_wrapper.py`
+
+Interfaces with local Ollama for:
+- Natural language intent parsing
+- Explanation generation
+- Embedding generation
+
+## 📊 Example Output
 
 ```
---- Mathematical Memory Palace Generation ---
-Processing Concept 1/5120: The derivative of x² is 2x...
-Generated PAO: Isaac Newton juggles glowing derivative symbols while racing through calculus forests.
+--- Processing Query: 'Find the derivative of x^2' ---
+[Stage A] Parsing Intent...
+  Intent: differentiation
+  Domain: calculus
+  Expression: x**2
+[Stage B] Searching Memory Palace...
+  Goal Loci: differentiation at (2, 5, 4)
+  Deriving Path from 'calculus' to 'differentiation'...
+  Path Sequence: ['calculus', 'differentiation']
+[Stage C] Executing Symbolic Path...
+  Symbolic Result: 2*x
+[Stage D] Generating Explanation...
+[Consolidation] Storing result in Tier 2 Memory Palace...
+  Stored at Tier 2 Loci: 2_5_4 (linked to differentiation)
 
-Assigned Coordinates: (2, 5, 3) - Parity: 0
-Mathematical Domain: calculus
-APL Implementation: 2×⍵
+--- FINAL OUTPUT ---
+Query: Find the derivative of x^2
+Result: 2*x
+Tier 2 Location: 2_5_4
 
---- Neural Network Training ---
-DIM-Net Forward Pass:
-Input Shape: torch.Size([1, 768])
-Predicted Coordinate: [2.134, 5.267, 3.891]
-Mathematical Accuracy Loss: 0.0089
+Explanation:
+To solve this differentiation problem:
+  • Initial State: x**2
+  • Entered Domain: calculus
+  • Applied differentiation: 2*x
 
-TRHD_MnemonicMapper Test:
-Input Shape: torch.Size([2, 10, 71])
-Predicted Cluster Coordinate: [4.234, 2.678, 6.543]
-
---- Retrieval Query ---
-Query: "solve quadratic equation"
-Retrieved Concepts:
-1. Quadratic formula: x = (-b ± √(b²-4ac))/2a
-2. Discriminant: b²-4ac
-3. APL Solution: (⊃((⍺÷2)±(0.5*⍺*2-4×⍵×⍺)*0.5)÷⍵)/⍨2
+Final Result: 2*x
 ```
 
 ## 🔬 Research Background
 
-### Mathematical Spatial Reasoning
+This system implements the architecture described in "A Cognitive Architecture for Robust Symbolic Reasoning: The Memory Palace Neuro-Symbolic RAG Replacement."
 
-The chess cube lattice provides a geometric framework for representing mathematical relationships. Adjacent locations can represent related concepts (e.g., derivative/integral pairs), while distant locations represent fundamentally different mathematical domains.
+### Key Innovations
 
-### APL Integration
+1. **Structured Knowledge Graph**: Replaces flat vector search with hierarchical concept relationships
+2. **Logical Pathing**: Guarantees valid sequences of mathematical operations
+3. **Symbolic Verification**: Every step is mathematically verified (no hallucinations)
+4. **Spatial Organization**: Leverages geometric intuition for concept retrieval
 
-APL's array-oriented programming paradigm naturally maps to the spatial reasoning of the chess cube. APL expressions stored at geometric locations enable executable mathematical computations within the memory palace.
+### Advantages Over Standard RAG
 
-### Retrieval-Augmented Mathematics
+| Feature | Standard RAG | Memory Palace RAG |
+|---------|-------------|-------------------|
+| Knowledge Store | Unstructured text corpus | Structured knowledge graph |
+| Retrieval | Vector similarity search | Spatial proximity + path derivation |
+| Output | Text snippets (unverified) | Symbolic templates (pre-verified) |
+| Reasoning | Statistical pattern matching | Logical path sequences |
 
-By combining semantic search with geometric reasoning, the system can retrieve relevant mathematical knowledge and APL solutions for problem-solving, serving as a RAG replacement for mathematical AI.
+## 🧪 Testing
+
+```bash
+# Test Tier 2 Memory Palace
+python test_tier2.py
+
+# Test individual components
+python mnemonic_model.py  # Test MPNN
+python symbolic_solver.py  # Test SymPy integration
+python sllm_wrapper.py     # Test Ollama (requires ollama serve)
+```
+
+## 📁 Project Structure
+
+```
+memory-ai/
+├── neuro_symbolic_rag.py          # Main pipeline
+├── mnemonic_model.py               # MPNN, DIM-Net, Tier2Lattice
+├── symbolic_solver.py              # SymPy integration
+├── sllm_wrapper.py                 # Ollama interface (optional)
+├── test_tier2.py                   # Tier 2 tests
+├── requirements.txt                # Dependencies
+├── README.md                       # This file
+└── [legacy files]                  # Original data generation scripts
+```
+
+## 🛣️ Roadmap
+
+- [x] Neuro-Symbolic 4-stage pipeline
+- [x] Tier 2 Memory Palace
+- [x] Differentiation and integration
+- [ ] Equation solving
+- [ ] Expand knowledge graph (100+ concepts)
+- [ ] Train DIM-Net on mathematical corpus
+- [ ] Multi-variable calculus
+- [ ] Linear algebra operations
+- [ ] Proof verification
 
 ## 🤝 Contributing
 
-### Mathematical Content Addition
-
-```bash
-# Add new mathematical domains
-python add_math_domain.py --domain "topology" --facts 500
-
-# Validate APL code
-python validate_apl.py --file "topology_apl.txt"
-```
-
-### Architecture Extensions
-
-- **New Math Models**: Extend for specific mathematical domains
-- **APL Compilers**: Integrate different APL interpreters
-- **Geometric Topologies**: Alternative spatial organizations for math
-- **Proof Verification**: Automated mathematical proof checking
-
-## 📈 Performance & Benchmarks
-
-### Mathematical Accuracy
-
-- **Formula Recall**: 95%+ accuracy for trained formulas
-- **APL Execution**: 100% correctness for stored APL code
-- **Relationship Preservation**: 90%+ geometric consistency for mathematical dependencies
-
-### Retrieval Performance
-
-- **Query Latency**: <50ms for mathematical searches
-- **Semantic Similarity**: Cosine similarity >0.85 for related concepts
-- **APL Execution**: <10ms for stored array operations
-
-## 🐛 Troubleshooting
-
-### Mathematical Issues
-
-**Incorrect Formula Mapping**
-```python
-# Validate mathematical relationships
-python validate_math_relationships.py
-```
-
-**APL Execution Errors**
-```apl
-# Test APL code in interpreter
-⎕← +/⍳10  ⍝ Should return 55
-```
-
-**Geometric Conflicts**
-- Ensure mathematical dependencies map to adjacent coordinates
-- Verify domain separation in coordinate space
-- Check parity constraints for mathematical consistency
+Contributions are welcome! Areas of interest:
+- Expanding the knowledge graph
+- Adding new mathematical domains
+- Improving the symbolic solver
+- Training the DIM-Net
 
 ## 📄 License
 
@@ -359,18 +283,12 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ## 🙏 Acknowledgments
 
-- **DIM-Net Theory**: Adapted for mathematical topology preservation
-- **APL Programming**: Array-oriented paradigm for mathematical computation
-- **Chess Cube Geometry**: Extended for mathematical relationship modeling
-- **Spatial Reasoning**: Geometric approaches to mathematical cognition
-
-## 🔗 Related Projects
-
-- [Dyalog APL](https://www.dyalog.com/) - APL interpreter
-- [PyTorch Geometric](https://pytorch-geometric.readthedocs.io/) - Geometric deep learning
-- [SymPy](https://www.sympy.org/) - Symbolic mathematics
+- **SymPy**: Symbolic mathematics library
+- **PyTorch**: Neural network framework
+- **Ollama**: Local LLM inference (optional)
+- Research paper: "Memory Palace Neuro-Symbolic RAG Replacement"
 
 ---
 
-**Last Updated**: November 27, 2025
-**Version**: 3.0.0 - Math-Focused Spatial Reasoning AI
+**Last Updated**: November 27, 2025  
+**Version**: 4.0.0 - Neuro-Symbolic Architecture
