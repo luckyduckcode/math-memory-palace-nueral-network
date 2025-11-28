@@ -74,38 +74,45 @@ class NeuroSymbolicRAG:
                 entities[token.lemma_] = sp.Symbol(token.lemma_)
         
         # Enhanced relationship extraction with AI input
+        rule_based_relations = set()
+        ai_relations = set()
+        
         for token in doc:
             lemma = token.lemma_.lower()
-            if lemma in ["twice", "double"] or ai_operation == "multiplication":
-                relationships.add("multiplication")
-            elif lemma in ["sum", "total", "add", "plus", "give", "gave", "gives"] or ai_operation == "addition":
-                relationships.add("addition")
-            elif lemma in ["difference", "subtract", "minus", "move", "moved", "transfer", "shift", "take", "took"] or ai_operation == "subtraction":
-                relationships.add("subtraction")
+            if lemma in ["twice", "double", "each", "per", "every"]:
+                rule_based_relations.add("multiplication")
+            elif lemma in ["sum", "total", "add", "plus", "give", "gave", "gives"]:
+                rule_based_relations.add("addition")
+            elif lemma in ["difference", "subtract", "minus", "move", "moved", "transfer", "shift", "take", "took", "remain", "remaining", "left"]:
+                rule_based_relations.add("subtraction")
             elif lemma in ["product", "multiply", "times"]:
-                relationships.add("multiplication")
-            elif lemma in ["quotient", "divide", "divided"] or ai_operation == "division":
-                relationships.add("division")
+                rule_based_relations.add("multiplication")
+            elif lemma in ["quotient", "divide", "divided"]:
+                rule_based_relations.add("division")
         
-        relationships = list(relationships)  # Convert back to list
+        # AI as fallback, not override
+        if ai_operation != "unknown" and not rule_based_relations:
+            ai_relations.add(ai_operation)
         
-        # Direct solving for common patterns
+        relationships = list(rule_based_relations | ai_relations)
+        
+        # Direct solving for common patterns based on relationships
         solution = None
         equation = None
-        if ai_operation == "subtraction" and len(numbers) >= 2:
+        if "subtraction" in relationships and len(numbers) >= 2:
             unique_nums = sorted(set(numbers))
             if len(unique_nums) >= 2:
                 solution = unique_nums[-1] - unique_nums[0]  # max - min
                 equation = f"{unique_nums[-1]} - {unique_nums[0]} = {solution}"
-        elif ai_operation == "addition" and len(numbers) >= 2:
+        elif "addition" in relationships and len(numbers) >= 2:
             solution = sum(numbers)
             equation = " + ".join(map(str, numbers)) + f" = {solution}"
-        elif ai_operation == "multiplication" and len(numbers) >= 2:
+        elif "multiplication" in relationships and len(numbers) >= 2:
             solution = 1
             for n in numbers:
                 solution *= n
             equation = " * ".join(map(str, numbers)) + f" = {solution}"
-        elif ai_operation == "division" and len(numbers) >= 2 and numbers[1] != 0:
+        elif "division" in relationships and len(numbers) >= 2 and numbers[1] != 0:
             solution = numbers[0] / numbers[1]
             equation = f"{numbers[0]} / {numbers[1]} = {solution}"
         
@@ -311,20 +318,42 @@ class NeuroSymbolicRAG:
             'limit': 'limits',
             'series': 'taylor_series',
             'matrix_operations': 'matrix_operations',
+            'addition': 'algebra',  # Map arithmetic to algebra
+            'subtraction': 'algebra',
+            'multiplication': 'algebra',
+            'division': 'algebra',
+            'word_problem': 'algebra',
             'unknown': 'calculus'
         }
         return mapping.get(intent, 'calculus')
     
     def _generate_explanation(self, history, result, intent_data):
-        """Generate explanation (simple version without LLM)."""
+        """Generate explanation with branched retrieval for richer context."""
+        # Get goal concept for branched retrieval
+        intent = intent_data.get('intent')
+        goal_concept = self._intent_to_concept(intent)
+        
+        # Retrieve similar explanations from neighboring locations
+        try:
+            similar_explanations = self.mpnn.retrieve_similar_explanations(goal_concept, radius=1)
+            branched_context = []
+            for exp_entry in similar_explanations[-3:]:  # Get last 3 for context
+                if isinstance(exp_entry, dict) and 'explanation' in exp_entry:
+                    # Extract key insights from similar explanations
+                    exp_text = exp_entry['explanation']
+                    if len(exp_text) > 100:  # Truncate long explanations
+                        exp_text = exp_text[:100] + "..."
+                    branched_context.append(exp_text)
+        except Exception as e:
+            branched_context = []
+        
         if self.use_ollama and self.sllm:
             try:
-                return self.sllm.explain_solution(history, result)
+                return self.sllm.explain_solution(history, result, branched_context)
             except:
                 pass
         
-        # Fallback: Simple template-based explanation
-        intent = intent_data.get('intent')
+        # Fallback: Simple template-based explanation with branched context
         expr = intent_data.get('expression')
         
         explanation = f"To solve this {intent} problem:\n"
@@ -334,6 +363,13 @@ class NeuroSymbolicRAG:
             explanation += f"  • Relationships: {', '.join(parsed['relationships'])}\n"
             if parsed['equation']:
                 explanation += f"  • Equation: {parsed['equation']}\n"
+        
+        # Add branched context if available
+        if branched_context:
+            explanation += f"\nRelated concepts and methods:\n"
+            for i, context in enumerate(branched_context, 1):
+                explanation += f"  • Similar approach {i}: {context}\n"
+        
         for step in history:
             explanation += f"  • {step}\n"
         explanation += f"\nFinal Result: {result}"

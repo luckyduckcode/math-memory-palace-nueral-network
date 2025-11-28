@@ -66,6 +66,39 @@ class Tier2Lattice(ChessCubeLattice):
         self.storage[key].append(entry)
         return key
 
+    def get_neighbors(self, coords, radius=1):
+        """
+        Retrieves explanations from neighboring coordinates in 3D space.
+        This enables branched retrieval for richer context.
+        
+        Args:
+            coords (tuple): (x, y, z) coordinates
+            radius (int): Search radius in each dimension
+            
+        Returns:
+            list: List of explanation entries from neighboring locations
+        """
+        x, y, z = coords
+        neighbors = []
+        
+        # Generate all coordinates within the radius
+        for dx in range(-radius, radius + 1):
+            for dy in range(-radius, radius + 1):
+                for dz in range(-radius, radius + 1):
+                    # Skip the center coordinate (0,0,0)
+                    if dx == 0 and dy == 0 and dz == 0:
+                        continue
+                    
+                    nx, ny, nz = x + dx, y + dy, z + dz
+                    
+                    # Check bounds (assuming cube size is accessible)
+                    if 0 <= nx < self.size and 0 <= ny < self.size and 0 <= nz < self.size:
+                        neighbor_key = f"{nx}_{ny}_{nz}"
+                        if neighbor_key in self.storage:
+                            neighbors.extend(self.storage[neighbor_key])
+        
+        return neighbors
+
 class DIM_Net(nn.Module):
     """
     Dimensionality Isomorphism Network (DIM-Net)
@@ -272,6 +305,33 @@ class MPNN(nn.Module):
         # Store in Tier 2
         storage_key = self.tier2.store_explanation(coords, explanation, path_sequence)
         return storage_key, coords
+
+    def retrieve_similar_explanations(self, goal_concept, radius=1):
+        """
+        Retrieves explanations from neighboring locations in Tier 2 for richer context.
+        This enables branched retrieval to provide associative memory context.
+        
+        Args:
+            goal_concept (str): The target concept
+            radius (int): Search radius for neighboring coordinates
+            
+        Returns:
+            list: List of similar explanations from neighboring locations
+        """
+        # Get coordinates of the goal concept
+        coords = self.concept_locations.get(goal_concept, (1,1,1))
+        
+        # Get neighboring explanations from Tier 2
+        neighbor_explanations = self.tier2.get_neighbors(coords, radius)
+        
+        # Also get explanations from the exact location
+        key = f"{coords[0]}_{coords[1]}_{coords[2]}"
+        local_explanations = self.tier2.storage.get(key, [])
+        
+        # Combine and return all explanations
+        all_explanations = local_explanations + neighbor_explanations
+        
+        return all_explanations
 
 class GenerativeMnemonicModel(nn.Module):
     """

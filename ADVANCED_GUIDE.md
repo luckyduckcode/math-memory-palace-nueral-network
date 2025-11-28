@@ -76,7 +76,74 @@ Find eigenvalues of matrix
 Matrix inverse
 ```
 
+### Word Problems
+
+The system now supports natural language word problems:
+
+```
+A farmer has 5 boxes with 3 kittens each. How many kittens are there?
+There were 7 apples. 2 were eaten. How many remain?
+John has 12 marbles. He gives 5 to Mary. How many does he have left?
+```
+
+**Features:**
+- **AI-Powered Parsing**: Uses DistilBERT for operation classification
+- **Entity Extraction**: Identifies numbers, nouns, and relationships
+- **Direct Solving**: Immediate answers for common patterns
+- **Symbolic Fallback**: Complex problems use symbolic computation
+
 ## 🔬 Advanced Features
+
+### 1. Custom Formula Creation
+
+Create your own formulas and store them for future use:
+
+```python
+# In Python API
+solver.create_formula(
+    name="kinetic_energy",
+    expression="0.5*m*v**2",
+    description="Kinetic energy formula"
+)
+
+# Apply the formula
+result = solver.apply_formula("kinetic_energy", m=10, v=5)
+# Result: 125.0
+```
+
+### 2. Multi-Variable Support
+
+The system automatically detects variables:
+
+```
+Find the derivative of x*y + z^2  # Differentiates with respect to x
+Integrate t^2 + 3*t  # Integrates with respect to t
+```
+
+### 3. Symbolic Results
+
+All results are exact symbolic expressions:
+
+```
+∫ x^2 dx = x^3/3  (not 0.333...)
+√2 stays as √2 (not 1.414...)
+```
+
+### 4. Tier 2 Knowledge Base
+
+Every solved problem is stored in the Tier 2 Memory Palace:
+- **Location**: 3D coordinates in the Chess Cube
+- **Path**: The conceptual journey taken
+- **History**: Step-by-step execution log
+- **Reusable**: Can be retrieved for similar problems
+
+### 5. Branched Retrieval (NEW)
+
+Enhanced memory palace with associative retrieval:
+- **Neighbor Search**: Retrieves explanations from adjacent 3D locations
+- **Contextual Enrichment**: Provides richer explanations using related concepts
+- **Associative Memory**: Connects similar problems for better understanding
+- **Configurable Radius**: Search neighboring locations within specified distance
 
 ### 1. Custom Formula Creation
 
@@ -163,6 +230,17 @@ Path: algebra → quadratic_equations → quadratic_formula
 Tier 2 Location: 1_3_3
 ```
 
+### Example 5: Word Problems
+```
+Query: "A farmer has 5 boxes with 3 kittens each. How many kittens are there?"
+
+Result: 15
+
+Path: word_problem_parsing
+Tier 2 Location: word_problem_arithmetic
+Branched Context: Related multiplication concepts from neighboring locations
+```
+
 ## 🎨 GUI Features
 
 Access the web interface at `file:///home/duck/Documents/memory-ai/gui.html`
@@ -203,6 +281,7 @@ The system can be extended to support:
 - **Numerical Methods**: When symbolic solutions don't exist
 - **Proof Verification**: Check mathematical proofs
 - **Formula Discovery**: Learn patterns from solved problems
+- **Advanced Word Problems**: Multi-step reasoning, geometry, physics applications
 
 ## 💡 Tips for Best Results
 
@@ -211,6 +290,8 @@ The system can be extended to support:
 3. **Check the Path**: The conceptual path shows how the problem was solved
 4. **Review Tier 2**: See what formulas have been stored
 5. **Create Formulas**: Store frequently-used expressions
+6. **Word Problems**: Use natural language; the AI parser handles common patterns
+7. **Branched Context**: More complex problems benefit from associative retrieval
 
 ## 🎯 Next Steps
 
@@ -222,8 +303,9 @@ To make this even more sophisticated:
 4. **Implement Proof System**: Verify mathematical statements
 5. **Multi-Step Problems**: Chain multiple operations
 6. **Formula Discovery**: Learn new formulas from patterns
+7. **Enhanced AI Parsing**: Support for more complex word problem types
 
 ---
 
-**Current Version**: 4.1.0 - Advanced Mathematical Calculator
+**Current Version**: 4.2.0 - AI-Enhanced Word Problem Solver with Branched Memory
 **Last Updated**: November 27, 2025
