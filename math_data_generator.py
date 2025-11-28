@@ -4,6 +4,9 @@ import json
 import random
 import os
 from collections import defaultdict
+import spacy
+import sympy as sp
+import nltk
 
 # --- 1. HIERARCHICAL MATH STRUCTURE ---
 
@@ -859,6 +862,141 @@ def generate_apl_expressions():
 
     return apl_expressions
 
+# --- 4.5 WORD PROBLEM GENERATION ---
+
+def parse_word_problem(problem_text):
+    """Parse a word problem to extract entities, relationships, and equations using spaCy and sympy"""
+    try:
+        nlp = spacy.load("en_core_web_sm")
+    except OSError:
+        return {"error": "spaCy model 'en_core_web_sm' not found. Install with: python -m spacy download en_core_web_sm"}
+    
+    doc = nlp(problem_text)
+    entities = {}
+    relationships = []
+    
+    # Extract numbers and potential variables
+    for token in doc:
+        if token.pos_ == "NUM":
+            entities[token.text] = sp.Symbol(f"x{token.text}")  # Symbolic variable for numbers
+        elif token.pos_ == "NOUN" and token.dep_ in ["nsubj", "dobj", "pobj"]:
+            entities[token.lemma_] = sp.Symbol(token.lemma_)
+    
+    # Simple relationship extraction
+    for token in doc:
+        if token.lemma_ in ["twice", "double"]:
+            relationships.append("multiplication by 2")
+        elif token.lemma_ in ["sum", "total", "add", "plus"]:
+            relationships.append("addition")
+        elif token.lemma_ in ["difference", "subtract", "minus"]:
+            relationships.append("subtraction")
+        elif token.lemma_ in ["product", "multiply", "times"]:
+            relationships.append("multiplication")
+        elif token.lemma_ in ["quotient", "divide", "divided"]:
+            relationships.append("division")
+    
+    # Basic equation generation (simplified for common patterns)
+    equation = None
+    if "twice" in problem_text.lower() and len(entities) >= 2:
+        vars_list = list(entities.values())
+        equation = sp.Eq(vars_list[0], 2 * vars_list[1])
+    elif "sum" in problem_text.lower() and len(entities) >= 2:
+        vars_list = list(entities.values())
+        equation = sp.Eq(vars_list[0], vars_list[1] + vars_list[2]) if len(vars_list) > 2 else None
+    
+    solution = None
+    if equation:
+        try:
+            solution = sp.solve(equation, list(entities.keys())[0])
+        except:
+            pass
+    
+    return {
+        "entities": {k: str(v) for k, v in entities.items()},
+        "relationships": relationships,
+        "equation": str(equation) if equation else None,
+        "solution": str(solution) if solution else None
+    }
+
+def generate_word_problem_templates():
+    """Define templates for different problem types, organized by level/domain"""
+    templates = {
+        1: {  # Elementary Arithmetic
+            "addition": [
+                ("John has {a} apples. Mary gives him {b} more. How many does he have?", "{a} + {b}"),
+                ("There are {a} birds on a tree. {b} more fly in. How many birds are there?", "{a} + {b}")
+            ],
+            "subtraction": [
+                ("John has {a} apples. He gives {b} to Mary. How many does he have left?", "{a} - {b}"),
+                ("There are {a} cookies. {b} are eaten. How many remain?", "{a} - {b}")
+            ],
+            "multiplication": [
+                ("Each box has {a} pencils. There are {b} boxes. How many pencils total?", "{a} * {b}"),
+                ("A train has {a} cars, each with {b} seats. How many seats total?", "{a} * {b}")
+            ],
+            "division": [
+                ("{a} pencils are shared equally among {b} children. How many each?", "{a} / {b}"),
+                ("A pizza is cut into {b} slices. There are {a} pizzas. How many slices total?", "{a} * {b}")
+            ]
+        },
+        2: {  # Elementary Algebra
+            "equations": [
+                ("{person1} is {a} years older than {person2}. {person2} is {b} years old. How old is {person1}?", "{b} + {a}"),
+                ("A number plus {a} equals {b}. What is the number?", "{b} - {a}")
+            ],
+            "inequalities": [
+                ("John has at least {a} marbles. Mary has {b}. Who has more?", "Compare {a} and {b}"),
+                ("The temperature is above {a} degrees. It is {b} degrees. Is it warm?", "{b} > {a}")
+            ]
+        },
+        3: {  # Geometry Fundamentals
+            "triangles": [
+                ("A triangle has base {a} and height {b}. What is its area?", "0.5 * {a} * {b}"),
+                ("Two sides of a triangle are {a} and {b}, angle between is 90 degrees. What is the hypotenuse?", "({a}**2 + {b}**2)**0.5")
+            ],
+            "circles": [
+                ("A circle has radius {a}. What is its area?", "3.14159 * {a}**2"),
+                ("Circumference of a circle with diameter {a} is?", "3.14159 * {a}")
+            ]
+        }
+        # Extend for higher levels as needed
+    }
+    return templates
+
+def generate_word_problems_by_level(templates, num_problems_per_template=5):
+    """Generate problems from templates, filling with random values"""
+    problems = []
+    for level, domains in templates.items():
+        for domain, template_list in domains.items():
+            for template, formula in template_list:
+                for _ in range(num_problems_per_template):
+                    # Random values based on level
+                    if level == 1:
+                        a, b = random.randint(1, 20), random.randint(1, 20)
+                    elif level == 2:
+                        a, b = random.randint(1, 50), random.randint(1, 50)
+                        person1, person2 = random.choice(["John", "Mary", "Bob"]), random.choice(["Alice", "Tom", "Sue"])
+                    elif level == 3:
+                        a, b = random.randint(1, 20), random.randint(1, 20)
+                    else:
+                        a, b = random.randint(1, 10), random.randint(1, 10)
+                    
+                    try:
+                        problem = template.format(a=a, b=b, person1=person1 if 'person1' in template else "", person2=person2 if 'person2' in template else "")
+                        answer = eval(formula.format(a=a, b=b))
+                        parsed = parse_word_problem(problem)
+                        problems.append({
+                            'level': level,
+                            'domain': domain,
+                            'problem': problem,
+                            'formula': formula,
+                            'answer': answer,
+                            'parsed': parsed
+                        })
+                    except:
+                        continue  # Skip if formatting fails
+    return problems
+
 # --- 5. COORDINATE ASSIGNMENT ---
 
 def assign_math_to_coordinates():
@@ -867,6 +1005,8 @@ def assign_math_to_coordinates():
 
     concepts = generate_math_concepts_by_level()
     apl_expr = generate_apl_expressions()
+    templates = generate_word_problem_templates()
+    word_problems = generate_word_problems_by_level(templates, num_problems_per_template=2)  # Limit for efficiency
 
     cluster_id = 0
 
@@ -929,6 +1069,32 @@ def assign_math_to_coordinates():
                         'difficulty': MATH_HIERARCHY[z]['difficulty']
                     })
 
+    # Add word problems as additional assignments
+    for idx, wp in enumerate(word_problems):
+        z = wp['level']
+        # Assign to fixed coordinates for simplicity (can be randomized later)
+        x, y = 1, 1
+        if z <= 8:
+            parity = (x + y + z) % 2
+        else:
+            parity = (x + y) % 2
+        math_assignments.append({
+            'cluster_id': f"word_l{z}_p{idx+1}",
+            'level': z,
+            'level_name': MATH_HIERARCHY[z]['level_name'],
+            'domain': wp['domain'],
+            'x_coord': x,
+            'y_coord': y,
+            'z_coord': z,
+            'color_parity': parity,
+            'math_concept': wp['problem'],  # Problem text as concept
+            'apl_code': '',
+            'difficulty': MATH_HIERARCHY[z]['difficulty'],
+            'word_problem': True,
+            'answer': wp['answer'],
+            'parsed': wp['parsed']
+        })
+
     return math_assignments
 
 # --- 6. SAVE MATH DATASET ---
@@ -986,6 +1152,13 @@ if __name__ == "__main__":
     apl_expressions = generate_apl_expressions()
     print(f"Created APL expressions for {len(apl_expressions)} levels")
 
+    # Generate word problem templates
+    print("Generating word problem templates...")
+    templates = generate_word_problem_templates()
+    print("Generating word problems...")
+    word_problems = generate_word_problems_by_level(templates, num_problems_per_template=2)
+    print(f"Generated {len(word_problems)} word problems")
+
     # Assign to coordinates
     print("Assigning concepts to 3D coordinates...")
     math_assignments = assign_math_to_coordinates()
@@ -1000,4 +1173,5 @@ if __name__ == "__main__":
     print(f"Domains per level: 4-5 mathematical domains")
     print(f"Clusters per foundation location: 10")
     print(f"Foundation locations per level: 10")
+    print(f"Word problems included: {len(word_problems)}")
     print("Files: math_concepts.json, math_training_data.csv")

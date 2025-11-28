@@ -113,27 +113,92 @@ class MPNN(nn.Module):
         self.tier2 = Tier2Lattice() # Initialize Tier 2
         
         # Knowledge Graph (Adjacency List)
-        # For PoC, we define a simple graph connecting major concepts
+        # Comprehensive graph connecting mathematical concepts
         self.knowledge_graph = {
-            # Example: Calculus -> Differentiation -> Power Rule
-            "calculus": ["differentiation", "integration", "limits"],
-            "differentiation": ["power_rule", "chain_rule", "product_rule"],
+            # Calculus
+            "calculus": ["differentiation", "integration", "limits", "series"],
+            "differentiation": ["power_rule", "chain_rule", "product_rule", "quotient_rule"],
             "power_rule": [],
             "chain_rule": [],
             "product_rule": [],
-            "integration": ["integration_by_parts", "substitution"],
-            "algebra": ["linear_equations", "quadratic_equations"],
+            "quotient_rule": [],
+            "integration": ["integration_by_parts", "substitution", "partial_fractions"],
+            "integration_by_parts": [],
+            "substitution": [],
+            "partial_fractions": [],
+            "limits": ["lhopital_rule"],
+            "lhopital_rule": [],
+            "series": ["taylor_series", "maclaurin_series"],
+            "taylor_series": [],
+            "maclaurin_series": [],
+            
+            # Algebra
+            "algebra": ["linear_equations", "quadratic_equations", "polynomial_equations", "simplify", "expand", "factor"],
             "linear_equations": ["matrix_operations"],
-            "matrix_operations": ["inverse", "determinant"]
+            "quadratic_equations": ["quadratic_formula", "completing_square"],
+            "quadratic_formula": [],
+            "completing_square": [],
+            "polynomial_equations": ["factor", "expand"],
+            "simplify": [],
+            "expand": [],
+            "factor": [],
+            
+            # Linear Algebra
+            "linear_algebra": ["matrix_operations", "eigenvalues", "determinant"],
+            "matrix_operations": ["inverse", "determinant", "transpose"],
+            "inverse": [],
+            "determinant": [],
+            "transpose": [],
+            "eigenvalues": ["eigenvectors"],
+            "eigenvectors": [],
+            
+            # Trigonometry
+            "trigonometry": ["trig_identities", "trig_simplify"],
+            "trig_identities": [],
+            "trig_simplify": [],
+            
+            # Number Theory
+            "number_theory": ["prime_factorization", "gcd", "lcm"],
+            "prime_factorization": [],
+            "gcd": [],
+            "lcm": [],
         }
         
         # Map concepts to approximate coordinates (Mocking the trained state)
         self.concept_locations = {
+            # Calculus (x=2-3)
             "calculus": (2, 5, 3),
             "differentiation": (2, 5, 4),
             "power_rule": (2, 6, 4),
+            "chain_rule": (2, 6, 5),
+            "product_rule": (2, 7, 4),
+            "quotient_rule": (2, 7, 5),
             "integration": (2, 4, 3),
-            "algebra": (1, 2, 2)
+            "integration_by_parts": (2, 4, 4),
+            "substitution": (2, 3, 4),
+            "limits": (3, 5, 3),
+            "series": (3, 5, 4),
+            "taylor_series": (3, 6, 4),
+            
+            # Algebra (x=1)
+            "algebra": (1, 2, 2),
+            "linear_equations": (1, 3, 2),
+            "quadratic_equations": (1, 3, 3),
+            "quadratic_formula": (1, 4, 3),
+            "simplify": (1, 2, 3),
+            "expand": (1, 2, 4),
+            "factor": (1, 2, 5),
+            
+            # Linear Algebra (x=4)
+            "linear_algebra": (4, 3, 3),
+            "matrix_operations": (4, 4, 3),
+            "inverse": (4, 4, 4),
+            "determinant": (4, 5, 3),
+            "eigenvalues": (4, 5, 4),
+            
+            # Trigonometry (x=5)
+            "trigonometry": (5, 3, 3),
+            "trig_identities": (5, 4, 3),
         }
 
     def spatial_proximity_search(self, problem_vector):

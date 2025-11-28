@@ -1,8 +1,11 @@
 import json
 import torch
+import spacy
+import sympy as sp
+from transformers import pipeline
 from sllm_wrapper import SLLMWrapper
 from mnemonic_model import MPNN, DIM_Net
-from symbolic_solver import SymbolicSolver
+from symbolic_solver import AdvancedSymbolicSolver
 
 class NeuroSymbolicRAG:
     """
@@ -23,9 +26,96 @@ class NeuroSymbolicRAG:
         self.mpnn = MPNN(dim_net=self.dim_net)
         
         # Stage C
-        self.solver = SymbolicSolver()
+        self.solver = AdvancedSymbolicSolver()
         
         print("System Initialized.")
+
+    def parse_word_problem(self, problem_text):
+        """Parse a word problem using spaCy and a small AI model for better filtering"""
+        try:
+            nlp = spacy.load("en_core_web_sm")
+        except OSError:
+            return {"error": "spaCy model 'en_core_web_sm' not found. Install with: python -m spacy download en_core_web_sm"}
+        
+        # Use small AI model for operation classification
+        try:
+            classifier = pipeline("zero-shot-classification", model="typeform/distilbert-base-uncased-mnli", device=-1)  # CPU
+            candidate_labels = ["addition", "subtraction", "multiplication", "division", "unknown"]
+            classification = classifier(problem_text, candidate_labels, truncation=True)
+            ai_operation = classification['labels'][0]  # Most likely operation
+        except Exception as e:
+            ai_operation = "unknown"  # Fallback if model fails
+        
+        doc = nlp(problem_text)
+        entities = {}
+        relationships = set()  # Use set to avoid duplicates
+        
+        # Word to number mapping
+        word_nums = {
+            "one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8, "nine": 9, "ten": 10,
+            "eleven": 11, "twelve": 12, "thirteen": 13, "fourteen": 14, "fifteen": 15, "sixteen": 16, "seventeen": 17, "eighteen": 18, "nineteen": 19, "twenty": 20
+        }
+        
+        # Extract numbers and potential variables
+        numbers = []
+        for token in doc:
+            if token.pos_ == "NUM":
+                text_lower = token.text.lower()
+                if text_lower in word_nums:
+                    num = word_nums[text_lower]
+                else:
+                    try:
+                        num = int(token.text) if token.text.isdigit() else float(token.text)
+                    except ValueError:
+                        continue
+                numbers.append(num)
+                entities[token.text] = sp.Symbol(f"x{token.text}")
+            elif token.pos_ == "NOUN" and token.dep_ in ["nsubj", "dobj", "pobj"]:
+                entities[token.lemma_] = sp.Symbol(token.lemma_)
+        
+        # Enhanced relationship extraction with AI input
+        for token in doc:
+            lemma = token.lemma_.lower()
+            if lemma in ["twice", "double"] or ai_operation == "multiplication":
+                relationships.add("multiplication")
+            elif lemma in ["sum", "total", "add", "plus", "give", "gave", "gives"] or ai_operation == "addition":
+                relationships.add("addition")
+            elif lemma in ["difference", "subtract", "minus", "move", "moved", "transfer", "shift", "take", "took"] or ai_operation == "subtraction":
+                relationships.add("subtraction")
+            elif lemma in ["product", "multiply", "times"]:
+                relationships.add("multiplication")
+            elif lemma in ["quotient", "divide", "divided"] or ai_operation == "division":
+                relationships.add("division")
+        
+        relationships = list(relationships)  # Convert back to list
+        
+        # Direct solving for common patterns
+        solution = None
+        equation = None
+        if ai_operation == "subtraction" and len(numbers) >= 2:
+            unique_nums = sorted(set(numbers))
+            if len(unique_nums) >= 2:
+                solution = unique_nums[-1] - unique_nums[0]  # max - min
+                equation = f"{unique_nums[-1]} - {unique_nums[0]} = {solution}"
+        elif ai_operation == "addition" and len(numbers) >= 2:
+            solution = sum(numbers)
+            equation = " + ".join(map(str, numbers)) + f" = {solution}"
+        elif ai_operation == "multiplication" and len(numbers) >= 2:
+            solution = 1
+            for n in numbers:
+                solution *= n
+            equation = " * ".join(map(str, numbers)) + f" = {solution}"
+        elif ai_operation == "division" and len(numbers) >= 2 and numbers[1] != 0:
+            solution = numbers[0] / numbers[1]
+            equation = f"{numbers[0]} / {numbers[1]} = {solution}"
+        
+        return {
+            "entities": {k: str(v) for k, v in entities.items()},
+            "relationships": relationships,
+            "equation": equation,
+            "solution": solution,
+            "ai_operation": ai_operation  # Include AI-detected operation
+        }
 
     def solve(self, user_query, use_simple_parser=True):
         """
@@ -44,6 +134,20 @@ class NeuroSymbolicRAG:
             
         if not intent_data:
             return {"error": "Could not parse intent."}
+        
+        # Check if word problem with direct solution
+        if 'parsed_data' in intent_data and intent_data['parsed_data'].get('solution') is not None:
+            result = intent_data['parsed_data']['solution']
+            explanation = self._generate_explanation([], result, intent_data)
+            # Mock tier2_location
+            tier2_location = f"word_problem_{intent_data.get('domain', 'math')}"
+            return {
+                "query": user_query,
+                "result": str(result),
+                "tier2_location": tier2_location,
+                "path": ["word_problem_parsing"],
+                "explanation": explanation
+            }
         
         print(f"  Intent: {intent_data.get('intent')}")
         print(f"  Domain: {intent_data.get('domain')}")
@@ -94,31 +198,95 @@ class NeuroSymbolicRAG:
         }
     
     def _simple_parse(self, query):
-        """Simple rule-based parser for common math queries."""
+        """Enhanced rule-based parser for comprehensive math queries."""
         query_lower = query.lower()
         
-        # Detect intent
-        if 'derivative' in query_lower or 'differentiate' in query_lower:
+        # Check if it's a word problem
+        import re
+        has_numbers = bool(re.search(r'\d+', query))
+        word_problem_keywords = ['has', 'gives', 'takes', 'how many', 'how much', 'left', 'remain', 'total', 'sum', 'difference']
+        is_word_problem = has_numbers and any(kw in query_lower for kw in word_problem_keywords)
+        
+        if is_word_problem:
+            parsed = self.parse_word_problem(query)
+            if 'error' not in parsed:
+                # Set intent based on relationships
+                if 'addition' in parsed['relationships']:
+                    intent = 'addition'
+                    domain = 'arithmetic'
+                elif 'subtraction' in parsed['relationships']:
+                    intent = 'subtraction'
+                    domain = 'arithmetic'
+                elif 'multiplication' in parsed['relationships']:
+                    intent = 'multiplication'
+                    domain = 'arithmetic'
+                elif 'division' in parsed['relationships']:
+                    intent = 'division'
+                    domain = 'arithmetic'
+                else:
+                    intent = 'word_problem'
+                    domain = 'arithmetic'
+                
+                expression = parsed.get('equation', 'x')
+                return {
+                    'intent': intent,
+                    'domain': domain,
+                    'expression': expression,
+                    'parsed_data': parsed
+                }
+        
+        # Detect intent (existing logic)
+        if 'derivative' in query_lower or 'differentiate' in query_lower or 'd/dx' in query_lower:
             intent = 'differentiation'
             domain = 'calculus'
-        elif 'integrate' in query_lower or 'integral' in query_lower:
+        elif 'integrate' in query_lower or 'integral' in query_lower or '∫' in query_lower:
             intent = 'integration'
             domain = 'calculus'
-        elif 'solve' in query_lower:
+        elif 'solve' in query_lower and ('equation' in query_lower or '=' in query):
             intent = 'solve_equation'
             domain = 'algebra'
+        elif 'simplify' in query_lower:
+            intent = 'simplify'
+            domain = 'algebra'
+        elif 'expand' in query_lower:
+            intent = 'expand'
+            domain = 'algebra'
+        elif 'factor' in query_lower:
+            intent = 'factor'
+            domain = 'algebra'
+        elif 'limit' in query_lower:
+            intent = 'limit'
+            domain = 'calculus'
+        elif 'taylor' in query_lower or 'series' in query_lower:
+            intent = 'series'
+            domain = 'calculus'
+        elif 'matrix' in query_lower or 'determinant' in query_lower or 'eigenvalue' in query_lower:
+            intent = 'matrix_operations'
+            domain = 'linear_algebra'
+        elif 'create formula' in query_lower or 'define formula' in query_lower:
+            intent = 'create_formula'
+            domain = 'custom'
         else:
             intent = 'unknown'
             domain = 'math'
         
-        # Extract expression (simple heuristic)
+        # Extract expression (enhanced heuristic)
         expression = None
         if 'of ' in query_lower:
-            expression = query.split('of ')[-1].strip()
-            # Clean up common endings
+            # Find the position in lowercase, extract from original
+            pos = query_lower.find('of ') + 3
+            expression = query[pos:].strip()
+            expression = expression.rstrip('.?!')
+        elif 'solve equation:' in query_lower:
+            pos = query_lower.find('solve equation:') + len('solve equation:')
+            expression = query[pos:].strip()
             expression = expression.rstrip('.?!')
         elif 'solve ' in query_lower:
-            expression = query.split('solve ')[-1].strip()
+            pos = query_lower.find('solve ') + 6
+            expression = query[pos:].strip()
+            expression = expression.rstrip('.?!')
+        elif ':' in query:  # For "simplify: (x+1)^2"
+            expression = query.split(':')[-1].strip()
             expression = expression.rstrip('.?!')
         
         # Convert ^ to ** for Python/SymPy
@@ -137,6 +305,12 @@ class NeuroSymbolicRAG:
             'differentiation': 'differentiation',
             'integration': 'integration',
             'solve_equation': 'linear_equations',
+            'simplify': 'simplify',
+            'expand': 'expand',
+            'factor': 'factor',
+            'limit': 'limits',
+            'series': 'taylor_series',
+            'matrix_operations': 'matrix_operations',
             'unknown': 'calculus'
         }
         return mapping.get(intent, 'calculus')
@@ -154,6 +328,12 @@ class NeuroSymbolicRAG:
         expr = intent_data.get('expression')
         
         explanation = f"To solve this {intent} problem:\n"
+        if 'parsed_data' in intent_data:
+            parsed = intent_data['parsed_data']
+            explanation += f"  • Parsed entities: {parsed['entities']}\n"
+            explanation += f"  • Relationships: {', '.join(parsed['relationships'])}\n"
+            if parsed['equation']:
+                explanation += f"  • Equation: {parsed['equation']}\n"
         for step in history:
             explanation += f"  • {step}\n"
         explanation += f"\nFinal Result: {result}"

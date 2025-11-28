@@ -83198,5 +83198,790 @@
     "math_concept": "Type theory and dependent types",
     "apl_code": "0 , 1 + \u23739  \u235d Successor function: n \u2192 n+1",
     "difficulty": "advanced"
+  },
+  {
+    "cluster_id": "word_l1_p1",
+    "level": 1,
+    "level_name": "Elementary Arithmetic",
+    "domain": "addition",
+    "x_coord": 1,
+    "y_coord": 1,
+    "z_coord": 1,
+    "color_parity": 1,
+    "math_concept": "John has 12 apples. Mary gives him 4 more. How many does he have?",
+    "apl_code": "",
+    "difficulty": "elementary",
+    "word_problem": true,
+    "answer": 16,
+    "parsed": {
+      "entities": {
+        "12": "x12",
+        "apple": "apple",
+        "4": "x4"
+      },
+      "relationships": [],
+      "equation": null,
+      "solution": null
+    }
+  },
+  {
+    "cluster_id": "word_l1_p2",
+    "level": 1,
+    "level_name": "Elementary Arithmetic",
+    "domain": "addition",
+    "x_coord": 1,
+    "y_coord": 1,
+    "z_coord": 1,
+    "color_parity": 1,
+    "math_concept": "John has 18 apples. Mary gives him 6 more. How many does he have?",
+    "apl_code": "",
+    "difficulty": "elementary",
+    "word_problem": true,
+    "answer": 24,
+    "parsed": {
+      "entities": {
+        "18": "x18",
+        "apple": "apple",
+        "6": "x6"
+      },
+      "relationships": [],
+      "equation": null,
+      "solution": null
+    }
+  },
+  {
+    "cluster_id": "word_l1_p3",
+    "level": 1,
+    "level_name": "Elementary Arithmetic",
+    "domain": "addition",
+    "x_coord": 1,
+    "y_coord": 1,
+    "z_coord": 1,
+    "color_parity": 1,
+    "math_concept": "There are 2 birds on a tree. 2 more fly in. How many birds are there?",
+    "apl_code": "",
+    "difficulty": "elementary",
+    "word_problem": true,
+    "answer": 4,
+    "parsed": {
+      "entities": {
+        "2": "x2",
+        "tree": "tree",
+        "bird": "bird"
+      },
+      "relationships": [],
+      "equation": null,
+      "solution": null
+    }
+  },
+  {
+    "cluster_id": "word_l1_p4",
+    "level": 1,
+    "level_name": "Elementary Arithmetic",
+    "domain": "addition",
+    "x_coord": 1,
+    "y_coord": 1,
+    "z_coord": 1,
+    "color_parity": 1,
+    "math_concept": "There are 2 birds on a tree. 16 more fly in. How many birds are there?",
+    "apl_code": "",
+    "difficulty": "elementary",
+    "word_problem": true,
+    "answer": 18,
+    "parsed": {
+      "entities": {
+        "2": "x2",
+        "tree": "tree",
+        "16": "x16",
+        "bird": "bird"
+      },
+      "relationships": [],
+      "equation": null,
+      "solution": null
+    }
+  },
+  {
+    "cluster_id": "word_l1_p5",
+    "level": 1,
+    "level_name": "Elementary Arithmetic",
+    "domain": "subtraction",
+    "x_coord": 1,
+    "y_coord": 1,
+    "z_coord": 1,
+    "color_parity": 1,
+    "math_concept": "John has 8 apples. He gives 13 to Mary. How many does he have left?",
+    "apl_code": "",
+    "difficulty": "elementary",
+    "word_problem": true,
+    "answer": -5,
+    "parsed": {
+      "entities": {
+        "8": "x8",
+        "apple": "apple",
+        "13": "x13"
+      },
+      "relationships": [],
+      "equation": null,
+      "solution": null
+    }
+  },
+  {
+    "cluster_id": "word_l1_p6",
+    "level": 1,
+    "level_name": "Elementary Arithmetic",
+    "domain": "subtraction",
+    "x_coord": 1,
+    "y_coord": 1,
+    "z_coord": 1,
+    "color_parity": 1,
+    "math_concept": "John has 14 apples. He gives 8 to Mary. How many does he have left?",
+    "apl_code": "",
+    "difficulty": "elementary",
+    "word_problem": true,
+    "answer": 6,
+    "parsed": {
+      "entities": {
+        "14": "x14",
+        "apple": "apple",
+        "8": "x8"
+      },
+      "relationships": [],
+      "equation": null,
+      "solution": null
+    }
+  },
+  {
+    "cluster_id": "word_l1_p7",
+    "level": 1,
+    "level_name": "Elementary Arithmetic",
+    "domain": "subtraction",
+    "x_coord": 1,
+    "y_coord": 1,
+    "z_coord": 1,
+    "color_parity": 1,
+    "math_concept": "There are 15 cookies. 4 are eaten. How many remain?",
+    "apl_code": "",
+    "difficulty": "elementary",
+    "word_problem": true,
+    "answer": 11,
+    "parsed": {
+      "entities": {
+        "15": "x15",
+        "4": "x4"
+      },
+      "relationships": [],
+      "equation": null,
+      "solution": null
+    }
+  },
+  {
+    "cluster_id": "word_l1_p8",
+    "level": 1,
+    "level_name": "Elementary Arithmetic",
+    "domain": "subtraction",
+    "x_coord": 1,
+    "y_coord": 1,
+    "z_coord": 1,
+    "color_parity": 1,
+    "math_concept": "There are 7 cookies. 2 are eaten. How many remain?",
+    "apl_code": "",
+    "difficulty": "elementary",
+    "word_problem": true,
+    "answer": 5,
+    "parsed": {
+      "entities": {
+        "7": "x7",
+        "2": "x2"
+      },
+      "relationships": [],
+      "equation": null,
+      "solution": null
+    }
+  },
+  {
+    "cluster_id": "word_l1_p9",
+    "level": 1,
+    "level_name": "Elementary Arithmetic",
+    "domain": "multiplication",
+    "x_coord": 1,
+    "y_coord": 1,
+    "z_coord": 1,
+    "color_parity": 1,
+    "math_concept": "Each box has 6 pencils. There are 15 boxes. How many pencils total?",
+    "apl_code": "",
+    "difficulty": "elementary",
+    "word_problem": true,
+    "answer": 90,
+    "parsed": {
+      "entities": {
+        "box": "box",
+        "6": "x6",
+        "pencil": "pencil",
+        "15": "x15"
+      },
+      "relationships": [
+        "addition"
+      ],
+      "equation": null,
+      "solution": null
+    }
+  },
+  {
+    "cluster_id": "word_l1_p10",
+    "level": 1,
+    "level_name": "Elementary Arithmetic",
+    "domain": "multiplication",
+    "x_coord": 1,
+    "y_coord": 1,
+    "z_coord": 1,
+    "color_parity": 1,
+    "math_concept": "Each box has 6 pencils. There are 5 boxes. How many pencils total?",
+    "apl_code": "",
+    "difficulty": "elementary",
+    "word_problem": true,
+    "answer": 30,
+    "parsed": {
+      "entities": {
+        "box": "box",
+        "6": "x6",
+        "pencil": "pencil",
+        "5": "x5"
+      },
+      "relationships": [
+        "addition"
+      ],
+      "equation": null,
+      "solution": null
+    }
+  },
+  {
+    "cluster_id": "word_l1_p11",
+    "level": 1,
+    "level_name": "Elementary Arithmetic",
+    "domain": "multiplication",
+    "x_coord": 1,
+    "y_coord": 1,
+    "z_coord": 1,
+    "color_parity": 1,
+    "math_concept": "A train has 17 cars, each with 2 seats. How many seats total?",
+    "apl_code": "",
+    "difficulty": "elementary",
+    "word_problem": true,
+    "answer": 34,
+    "parsed": {
+      "entities": {
+        "train": "train",
+        "17": "x17",
+        "car": "car",
+        "2": "x2",
+        "seat": "seat"
+      },
+      "relationships": [
+        "addition"
+      ],
+      "equation": null,
+      "solution": null
+    }
+  },
+  {
+    "cluster_id": "word_l1_p12",
+    "level": 1,
+    "level_name": "Elementary Arithmetic",
+    "domain": "multiplication",
+    "x_coord": 1,
+    "y_coord": 1,
+    "z_coord": 1,
+    "color_parity": 1,
+    "math_concept": "A train has 1 cars, each with 1 seats. How many seats total?",
+    "apl_code": "",
+    "difficulty": "elementary",
+    "word_problem": true,
+    "answer": 1,
+    "parsed": {
+      "entities": {
+        "train": "train",
+        "1": "x1",
+        "car": "car",
+        "seat": "seat"
+      },
+      "relationships": [
+        "addition"
+      ],
+      "equation": null,
+      "solution": null
+    }
+  },
+  {
+    "cluster_id": "word_l1_p13",
+    "level": 1,
+    "level_name": "Elementary Arithmetic",
+    "domain": "division",
+    "x_coord": 1,
+    "y_coord": 1,
+    "z_coord": 1,
+    "color_parity": 1,
+    "math_concept": "20 pencils are shared equally among 11 children. How many each?",
+    "apl_code": "",
+    "difficulty": "elementary",
+    "word_problem": true,
+    "answer": 1.8181818181818181,
+    "parsed": {
+      "entities": {
+        "20": "x20",
+        "11": "x11",
+        "child": "child"
+      },
+      "relationships": [],
+      "equation": null,
+      "solution": null
+    }
+  },
+  {
+    "cluster_id": "word_l1_p14",
+    "level": 1,
+    "level_name": "Elementary Arithmetic",
+    "domain": "division",
+    "x_coord": 1,
+    "y_coord": 1,
+    "z_coord": 1,
+    "color_parity": 1,
+    "math_concept": "20 pencils are shared equally among 15 children. How many each?",
+    "apl_code": "",
+    "difficulty": "elementary",
+    "word_problem": true,
+    "answer": 1.3333333333333333,
+    "parsed": {
+      "entities": {
+        "20": "x20",
+        "15": "x15",
+        "child": "child"
+      },
+      "relationships": [],
+      "equation": null,
+      "solution": null
+    }
+  },
+  {
+    "cluster_id": "word_l1_p15",
+    "level": 1,
+    "level_name": "Elementary Arithmetic",
+    "domain": "division",
+    "x_coord": 1,
+    "y_coord": 1,
+    "z_coord": 1,
+    "color_parity": 1,
+    "math_concept": "A pizza is cut into 15 slices. There are 7 pizzas. How many slices total?",
+    "apl_code": "",
+    "difficulty": "elementary",
+    "word_problem": true,
+    "answer": 105,
+    "parsed": {
+      "entities": {
+        "15": "x15",
+        "slice": "slice",
+        "7": "x7"
+      },
+      "relationships": [
+        "addition"
+      ],
+      "equation": null,
+      "solution": null
+    }
+  },
+  {
+    "cluster_id": "word_l1_p16",
+    "level": 1,
+    "level_name": "Elementary Arithmetic",
+    "domain": "division",
+    "x_coord": 1,
+    "y_coord": 1,
+    "z_coord": 1,
+    "color_parity": 1,
+    "math_concept": "A pizza is cut into 2 slices. There are 19 pizzas. How many slices total?",
+    "apl_code": "",
+    "difficulty": "elementary",
+    "word_problem": true,
+    "answer": 38,
+    "parsed": {
+      "entities": {
+        "2": "x2",
+        "slice": "slice",
+        "19": "x19"
+      },
+      "relationships": [
+        "addition"
+      ],
+      "equation": null,
+      "solution": null
+    }
+  },
+  {
+    "cluster_id": "word_l2_p17",
+    "level": 2,
+    "level_name": "Elementary Algebra",
+    "domain": "equations",
+    "x_coord": 1,
+    "y_coord": 1,
+    "z_coord": 2,
+    "color_parity": 0,
+    "math_concept": "Mary is 49 years older than Sue. Sue is 19 years old. How old is Mary?",
+    "apl_code": "",
+    "difficulty": "elementary",
+    "word_problem": true,
+    "answer": 68,
+    "parsed": {
+      "entities": {
+        "49": "x49",
+        "19": "x19"
+      },
+      "relationships": [],
+      "equation": null,
+      "solution": null
+    }
+  },
+  {
+    "cluster_id": "word_l2_p18",
+    "level": 2,
+    "level_name": "Elementary Algebra",
+    "domain": "equations",
+    "x_coord": 1,
+    "y_coord": 1,
+    "z_coord": 2,
+    "color_parity": 0,
+    "math_concept": "Mary is 14 years older than Alice. Alice is 41 years old. How old is Mary?",
+    "apl_code": "",
+    "difficulty": "elementary",
+    "word_problem": true,
+    "answer": 55,
+    "parsed": {
+      "entities": {
+        "14": "x14",
+        "41": "x41"
+      },
+      "relationships": [],
+      "equation": null,
+      "solution": null
+    }
+  },
+  {
+    "cluster_id": "word_l2_p19",
+    "level": 2,
+    "level_name": "Elementary Algebra",
+    "domain": "equations",
+    "x_coord": 1,
+    "y_coord": 1,
+    "z_coord": 2,
+    "color_parity": 0,
+    "math_concept": "A number plus 27 equals 14. What is the number?",
+    "apl_code": "",
+    "difficulty": "elementary",
+    "word_problem": true,
+    "answer": -13,
+    "parsed": {
+      "entities": {
+        "number": "number",
+        "27": "x27",
+        "14": "x14"
+      },
+      "relationships": [
+        "addition"
+      ],
+      "equation": null,
+      "solution": null
+    }
+  },
+  {
+    "cluster_id": "word_l2_p20",
+    "level": 2,
+    "level_name": "Elementary Algebra",
+    "domain": "equations",
+    "x_coord": 1,
+    "y_coord": 1,
+    "z_coord": 2,
+    "color_parity": 0,
+    "math_concept": "A number plus 43 equals 50. What is the number?",
+    "apl_code": "",
+    "difficulty": "elementary",
+    "word_problem": true,
+    "answer": 7,
+    "parsed": {
+      "entities": {
+        "number": "number",
+        "43": "x43",
+        "50": "x50"
+      },
+      "relationships": [
+        "addition"
+      ],
+      "equation": null,
+      "solution": null
+    }
+  },
+  {
+    "cluster_id": "word_l2_p21",
+    "level": 2,
+    "level_name": "Elementary Algebra",
+    "domain": "inequalities",
+    "x_coord": 1,
+    "y_coord": 1,
+    "z_coord": 2,
+    "color_parity": 0,
+    "math_concept": "The temperature is above 39 degrees. It is 39 degrees. Is it warm?",
+    "apl_code": "",
+    "difficulty": "elementary",
+    "word_problem": true,
+    "answer": false,
+    "parsed": {
+      "entities": {
+        "temperature": "temperature",
+        "39": "x39",
+        "degree": "degree"
+      },
+      "relationships": [],
+      "equation": null,
+      "solution": null
+    }
+  },
+  {
+    "cluster_id": "word_l2_p22",
+    "level": 2,
+    "level_name": "Elementary Algebra",
+    "domain": "inequalities",
+    "x_coord": 1,
+    "y_coord": 1,
+    "z_coord": 2,
+    "color_parity": 0,
+    "math_concept": "The temperature is above 43 degrees. It is 34 degrees. Is it warm?",
+    "apl_code": "",
+    "difficulty": "elementary",
+    "word_problem": true,
+    "answer": false,
+    "parsed": {
+      "entities": {
+        "temperature": "temperature",
+        "43": "x43",
+        "degree": "degree",
+        "34": "x34"
+      },
+      "relationships": [],
+      "equation": null,
+      "solution": null
+    }
+  },
+  {
+    "cluster_id": "word_l3_p23",
+    "level": 3,
+    "level_name": "Geometry Fundamentals",
+    "domain": "triangles",
+    "x_coord": 1,
+    "y_coord": 1,
+    "z_coord": 3,
+    "color_parity": 1,
+    "math_concept": "A triangle has base 4 and height 2. What is its area?",
+    "apl_code": "",
+    "difficulty": "elementary",
+    "word_problem": true,
+    "answer": 4.0,
+    "parsed": {
+      "entities": {
+        "triangle": "triangle",
+        "base": "base",
+        "4": "x4",
+        "2": "x2",
+        "area": "area"
+      },
+      "relationships": [],
+      "equation": null,
+      "solution": null
+    }
+  },
+  {
+    "cluster_id": "word_l3_p24",
+    "level": 3,
+    "level_name": "Geometry Fundamentals",
+    "domain": "triangles",
+    "x_coord": 1,
+    "y_coord": 1,
+    "z_coord": 3,
+    "color_parity": 1,
+    "math_concept": "A triangle has base 14 and height 8. What is its area?",
+    "apl_code": "",
+    "difficulty": "elementary",
+    "word_problem": true,
+    "answer": 56.0,
+    "parsed": {
+      "entities": {
+        "triangle": "triangle",
+        "base": "base",
+        "14": "x14",
+        "8": "x8",
+        "area": "area"
+      },
+      "relationships": [],
+      "equation": null,
+      "solution": null
+    }
+  },
+  {
+    "cluster_id": "word_l3_p25",
+    "level": 3,
+    "level_name": "Geometry Fundamentals",
+    "domain": "triangles",
+    "x_coord": 1,
+    "y_coord": 1,
+    "z_coord": 3,
+    "color_parity": 1,
+    "math_concept": "Two sides of a triangle are 16 and 19, angle between is 90 degrees. What is the hypotenuse?",
+    "apl_code": "",
+    "difficulty": "elementary",
+    "word_problem": true,
+    "answer": 24.839484696748443,
+    "parsed": {
+      "entities": {
+        "Two": "xTwo",
+        "side": "side",
+        "triangle": "triangle",
+        "16": "x16",
+        "19": "x19",
+        "angle": "angle",
+        "90": "x90",
+        "hypotenuse": "hypotenuse"
+      },
+      "relationships": [],
+      "equation": null,
+      "solution": null
+    }
+  },
+  {
+    "cluster_id": "word_l3_p26",
+    "level": 3,
+    "level_name": "Geometry Fundamentals",
+    "domain": "triangles",
+    "x_coord": 1,
+    "y_coord": 1,
+    "z_coord": 3,
+    "color_parity": 1,
+    "math_concept": "Two sides of a triangle are 7 and 3, angle between is 90 degrees. What is the hypotenuse?",
+    "apl_code": "",
+    "difficulty": "elementary",
+    "word_problem": true,
+    "answer": 7.615773105863909,
+    "parsed": {
+      "entities": {
+        "Two": "xTwo",
+        "side": "side",
+        "triangle": "triangle",
+        "7": "x7",
+        "3": "x3",
+        "angle": "angle",
+        "90": "x90",
+        "hypotenuse": "hypotenuse"
+      },
+      "relationships": [],
+      "equation": null,
+      "solution": null
+    }
+  },
+  {
+    "cluster_id": "word_l3_p27",
+    "level": 3,
+    "level_name": "Geometry Fundamentals",
+    "domain": "circles",
+    "x_coord": 1,
+    "y_coord": 1,
+    "z_coord": 3,
+    "color_parity": 1,
+    "math_concept": "A circle has radius 17. What is its area?",
+    "apl_code": "",
+    "difficulty": "elementary",
+    "word_problem": true,
+    "answer": 907.91951,
+    "parsed": {
+      "entities": {
+        "circle": "circle",
+        "17": "x17",
+        "area": "area"
+      },
+      "relationships": [],
+      "equation": null,
+      "solution": null
+    }
+  },
+  {
+    "cluster_id": "word_l3_p28",
+    "level": 3,
+    "level_name": "Geometry Fundamentals",
+    "domain": "circles",
+    "x_coord": 1,
+    "y_coord": 1,
+    "z_coord": 3,
+    "color_parity": 1,
+    "math_concept": "A circle has radius 12. What is its area?",
+    "apl_code": "",
+    "difficulty": "elementary",
+    "word_problem": true,
+    "answer": 452.38896,
+    "parsed": {
+      "entities": {
+        "circle": "circle",
+        "12": "x12",
+        "area": "area"
+      },
+      "relationships": [],
+      "equation": null,
+      "solution": null
+    }
+  },
+  {
+    "cluster_id": "word_l3_p29",
+    "level": 3,
+    "level_name": "Geometry Fundamentals",
+    "domain": "circles",
+    "x_coord": 1,
+    "y_coord": 1,
+    "z_coord": 3,
+    "color_parity": 1,
+    "math_concept": "Circumference of a circle with diameter 19 is?",
+    "apl_code": "",
+    "difficulty": "elementary",
+    "word_problem": true,
+    "answer": 59.69021,
+    "parsed": {
+      "entities": {
+        "circumference": "circumference",
+        "circle": "circle",
+        "diameter": "diameter",
+        "19": "x19"
+      },
+      "relationships": [],
+      "equation": null,
+      "solution": null
+    }
+  },
+  {
+    "cluster_id": "word_l3_p30",
+    "level": 3,
+    "level_name": "Geometry Fundamentals",
+    "domain": "circles",
+    "x_coord": 1,
+    "y_coord": 1,
+    "z_coord": 3,
+    "color_parity": 1,
+    "math_concept": "Circumference of a circle with diameter 14 is?",
+    "apl_code": "",
+    "difficulty": "elementary",
+    "word_problem": true,
+    "answer": 43.98226,
+    "parsed": {
+      "entities": {
+        "circumference": "circumference",
+        "circle": "circle",
+        "diameter": "diameter",
+        "14": "x14"
+      },
+      "relationships": [],
+      "equation": null,
+      "solution": null
+    }
   }
 ]

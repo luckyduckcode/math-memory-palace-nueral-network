@@ -6399,3 +6399,33 @@ math_l10_x8y8_f7,10,Mathematical Theory and Proofs,formal_systems,Peano arithmet
 math_l10_x8y8_f8,10,Mathematical Theory and Proofs,formal_systems,Zermelo-Fraenkel set theory (ZF),∧/ 1 1 1  ⍝ All theorems are true,advanced,8,8,10,0
 math_l10_x8y8_f9,10,Mathematical Theory and Proofs,formal_systems,Category theory: objects and morphisms between them,⍝ Peano axioms simulation,advanced,8,8,10,0
 math_l10_x8y8_f10,10,Mathematical Theory and Proofs,formal_systems,Type theory and dependent types,"0 , 1 + ⍳9  ⍝ Successor function: n → n+1",advanced,8,8,10,0
+word_l1_p1,1,Elementary Arithmetic,addition,John has 12 apples. Mary gives him 4 more. How many does he have?,,elementary,1,1,1,1
+word_l1_p2,1,Elementary Arithmetic,addition,John has 18 apples. Mary gives him 6 more. How many does he have?,,elementary,1,1,1,1
+word_l1_p3,1,Elementary Arithmetic,addition,There are 2 birds on a tree. 2 more fly in. How many birds are there?,,elementary,1,1,1,1
+word_l1_p4,1,Elementary Arithmetic,addition,There are 2 birds on a tree. 16 more fly in. How many birds are there?,,elementary,1,1,1,1
+word_l1_p5,1,Elementary Arithmetic,subtraction,John has 8 apples. He gives 13 to Mary. How many does he have left?,,elementary,1,1,1,1
+word_l1_p6,1,Elementary Arithmetic,subtraction,John has 14 apples. He gives 8 to Mary. How many does he have left?,,elementary,1,1,1,1
+word_l1_p7,1,Elementary Arithmetic,subtraction,There are 15 cookies. 4 are eaten. How many remain?,,elementary,1,1,1,1
+word_l1_p8,1,Elementary Arithmetic,subtraction,There are 7 cookies. 2 are eaten. How many remain?,,elementary,1,1,1,1
+word_l1_p9,1,Elementary Arithmetic,multiplication,Each box has 6 pencils. There are 15 boxes. How many pencils total?,,elementary,1,1,1,1
+word_l1_p10,1,Elementary Arithmetic,multiplication,Each box has 6 pencils. There are 5 boxes. How many pencils total?,,elementary,1,1,1,1
+word_l1_p11,1,Elementary Arithmetic,multiplication,"A train has 17 cars, each with 2 seats. How many seats total?",,elementary,1,1,1,1
+word_l1_p12,1,Elementary Arithmetic,multiplication,"A train has 1 cars, each with 1 seats. How many seats total?",,elementary,1,1,1,1
+word_l1_p13,1,Elementary Arithmetic,division,20 pencils are shared equally among 11 children. How many each?,,elementary,1,1,1,1
+word_l1_p14,1,Elementary Arithmetic,division,20 pencils are shared equally among 15 children. How many each?,,elementary,1,1,1,1
+word_l1_p15,1,Elementary Arithmetic,division,A pizza is cut into 15 slices. There are 7 pizzas. How many slices total?,,elementary,1,1,1,1
+word_l1_p16,1,Elementary Arithmetic,division,A pizza is cut into 2 slices. There are 19 pizzas. How many slices total?,,elementary,1,1,1,1
+word_l2_p17,2,Elementary Algebra,equations,Mary is 49 years older than Sue. Sue is 19 years old. How old is Mary?,,elementary,1,1,2,0
+word_l2_p18,2,Elementary Algebra,equations,Mary is 14 years older than Alice. Alice is 41 years old. How old is Mary?,,elementary,1,1,2,0
+word_l2_p19,2,Elementary Algebra,equations,A number plus 27 equals 14. What is the number?,,elementary,1,1,2,0
+word_l2_p20,2,Elementary Algebra,equations,A number plus 43 equals 50. What is the number?,,elementary,1,1,2,0
+word_l2_p21,2,Elementary Algebra,inequalities,The temperature is above 39 degrees. It is 39 degrees. Is it warm?,,elementary,1,1,2,0
+word_l2_p22,2,Elementary Algebra,inequalities,The temperature is above 43 degrees. It is 34 degrees. Is it warm?,,elementary,1,1,2,0
+word_l3_p23,3,Geometry Fundamentals,triangles,A triangle has base 4 and height 2. What is its area?,,elementary,1,1,3,1
+word_l3_p24,3,Geometry Fundamentals,triangles,A triangle has base 14 and height 8. What is its area?,,elementary,1,1,3,1
+word_l3_p25,3,Geometry Fundamentals,triangles,"Two sides of a triangle are 16 and 19, angle between is 90 degrees. What is the hypotenuse?",,elementary,1,1,3,1
+word_l3_p26,3,Geometry Fundamentals,triangles,"Two sides of a triangle are 7 and 3, angle between is 90 degrees. What is the hypotenuse?",,elementary,1,1,3,1
+word_l3_p27,3,Geometry Fundamentals,circles,A circle has radius 17. What is its area?,,elementary,1,1,3,1
+word_l3_p28,3,Geometry Fundamentals,circles,A circle has radius 12. What is its area?,,elementary,1,1,3,1
+word_l3_p29,3,Geometry Fundamentals,circles,Circumference of a circle with diameter 19 is?,,elementary,1,1,3,1
+word_l3_p30,3,Geometry Fundamentals,circles,Circumference of a circle with diameter 14 is?,,elementary,1,1,3,1
